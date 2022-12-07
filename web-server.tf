@@ -11,6 +11,15 @@ resource "azurerm_network_interface" "web_linuxvm_nic" {
     }
 }
 
+# Custom Data
+locals {
+  custom_data = <<CUSTOM_DATA
+#!/bin/bash
+sudo apt install -y apache2
+sudo service apache2 start
+CUSTOM_DATA
+}
+
 # Create Linux VM
 resource "azurerm_linux_virtual_machine" "web_linuxvm" {
     count = var.web_linux_vm_instance_count
@@ -35,4 +44,5 @@ resource "azurerm_linux_virtual_machine" "web_linuxvm" {
         sku       = "18.04-LTS"
         version   = "latest"
     }
+    custom_data = base64encode(local.custom_data)
 }
