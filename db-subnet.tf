@@ -13,7 +13,7 @@ resource "azurerm_network_security_group" "db_subnet_nsg" {
     resource_group_name = azurerm_resource_group.rg.name
 }
 
-# Network Security Group Association
+# Network Security Group Association (associate subnet to network security group)
 resource "azurerm_subnet_network_security_group_association" "db_subnet_nsg_association" {
     depends_on = [ azurerm_network_security_rule.db_nsg_inbound_rules ]
     subnet_id = azurerm_subnet.dbsubnet.id

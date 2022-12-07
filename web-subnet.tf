@@ -24,7 +24,8 @@ resource "azurerm_subnet_network_security_group_association" "web_subnet_nsg_ass
 locals {
     web_inbound_ports_map = {
         "100" : "80",
-        "110" : "443"
+        "110" : "443",
+        "120" : "22"
     }
 }
 
