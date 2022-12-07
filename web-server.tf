@@ -1,6 +1,7 @@
 # Create NIC
 resource "azurerm_network_interface" "web_linuxvm_nic" {
-    name = "web-linuxvm-nic"
+    count = var.web_linux_vm_instance_count
+    name = "web-linuxvm-nic-${count.index}"
     resource_group_name = azurerm_resource_group.rg.name
     location = azurerm_resource_group.rg.location
     ip_configuration {
@@ -12,13 +13,14 @@ resource "azurerm_network_interface" "web_linuxvm_nic" {
 
 # Create Linux VM
 resource "azurerm_linux_virtual_machine" "web_linuxvm" {
-    name = "web-linuxvm"
-    computer_name = "web-linux-vm" # Hostname (optional)
+    count = var.web_linux_vm_instance_count
+    name = "web-linuxvm-${count.index}"
+    computer_name = "web-linux-vm${count.index}" # Hostname (optional)
     resource_group_name = azurerm_resource_group.rg.name
     location = azurerm_resource_group.rg.location
     size = "Standard_B1s"
     admin_username = "webadmin"
-    network_interface_ids = [ azurerm_network_interface.web_linuxvm_nic.id ]
+    network_interface_ids = [ element(azurerm_network_interface.web_linuxvm_nic[*].id, count.index) ]
     admin_ssh_key {
         username = "webadmin"
         public_key = file("${path.module}/ssh-keys/azure_key.pub")

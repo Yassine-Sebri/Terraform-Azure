@@ -81,3 +81,10 @@ variable "bastion_subnet_address" {
   default     = ["10.0.100.0/24"]
   description = "Virtual Network Bastion Subnet Address Space"
 }
+
+# Web Linux VM Instance Count
+variable "web_linux_vm_instance_count" {
+  description = "Web Linux VM Instance Count"
+  type = number
+  default = 1
+}

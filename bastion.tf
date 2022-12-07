@@ -5,7 +5,6 @@ resource "azurerm_public_ip" "bastion_linuxvm_public_ip" {
     location = azurerm_resource_group.rg.location
     allocation_method = "Static"
     sku = "Standard"
-    domain_name_label = "bastion-vm"
 }
 
 # Create NIC
