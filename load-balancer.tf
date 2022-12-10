@@ -44,11 +44,3 @@ resource "azurerm_lb_rule" "web_lb_rule_app1" {
   probe_id = azurerm_lb_probe.web_lb_probe.id
   loadbalancer_id = azurerm_lb.web_lb.id
 }
-
-# Associate the Web Servers and the Backed Address Pool
-resource "azurerm_network_interface_backend_address_pool_association" "web_nic_lb_association" {
-  count = var.web_linux_vm_instance_count
-  network_interface_id = element(azurerm_network_interface.web_linuxvm_nic[*].id, count.index)
-  ip_configuration_name = element(azurerm_network_interface.web_linuxvm_nic[*].ip_configuration[0].name, count.index)
-  backend_address_pool_id = azurerm_lb_backend_address_pool.web_lb_backend_address_pool.id
-}
